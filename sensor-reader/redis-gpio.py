@@ -37,5 +37,5 @@ while True:
     key=timestamp
     r.set(key,dataj)
     print(dataj)
-    time.sleep(0.02)
+    time.sleep(0.5)
 

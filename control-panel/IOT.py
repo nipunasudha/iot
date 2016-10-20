@@ -41,7 +41,7 @@ def getData(event):
 root = Tk()
 
 image = Image.open("Header.png")
-image = image.resize((600, 50), Image.ANTIALIAS)
+image = image.resize((600, 72), Image.ANTIALIAS)
 photo = ImageTk.PhotoImage(image)
 
 label = Label(root, image=photo)
