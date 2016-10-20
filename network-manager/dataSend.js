@@ -10,7 +10,7 @@ var mysql      = require('mysql');
 var mysqlClient = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : null,
+    password : 'root',
     database : 'iot'
 });
 
@@ -23,7 +23,7 @@ var keyArray = [];
 var sql = "INSERT INTO data (data) VALUES ";
 
 function removeFromCache(keyArray) {
-    redisClient.del('',function (test) {
+    redisClient.del(keyArray,function (test) {
         console.log('delete ok');
         process.exit();
     });
