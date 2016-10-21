@@ -13,11 +13,11 @@ val_Analog_Port = ""
 val_Select_Sensor = ""
 
 def update():
-    jsonFile = open("Settings.json", "w+")
+    jsonFile = open("../Settings.json", "w+")
     jsonFile.write(json.dumps(data))
     jsonFile.close()
 def read():
-    jsonFile = open("Settings.json", "r")
+    jsonFile = open("../Settings.json", "r")
     data = json.load(jsonFile)
     jsonFile.close()
     return data
