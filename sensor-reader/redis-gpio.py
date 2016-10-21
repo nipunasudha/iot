@@ -21,6 +21,10 @@ def datestr():
 r=redis.StrictRedis(host='localhost',port=6379, db=0)
 x=0
 
+print('====================================\n')
+print('SENSOR READING SERVICE\n')
+print('====================================\n')
+
 
 #================ MAIN LOOP ================
 while True:

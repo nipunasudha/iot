@@ -1,3 +1,13 @@
+echo "====================================="
+echo "====================================="
+echo "====================================="
+
+echo "Canary IOT - IOT for Everyone"
+
+echo "====================================="
+echo "====================================="
+echo "====================================="
+
 cd ~
 cd redis-3.2.4
 lxterminal -l -e 'src/redis-server'
@@ -7,3 +17,5 @@ cd iot/sensor-reader
 lxterminal -l -e 'python2 redis-gpio.py'
 cd ../control-panel
 lxterminal -l -e 'python2 IOT.py'
+cd ../network-manager
+lxterminal -l -e 'python2 upload.py'

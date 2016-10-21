@@ -1,7 +1,7 @@
 from Tkinter import *
 from PIL import Image, ImageTk
 import json
-
+print('GUI APPLICATION MANAGER')
 #-------------------FOR CHILD-----------------------------
 sensor_Calibrate = ''
 var_type = ''
@@ -200,7 +200,7 @@ def autoReset():
 root = Tk()
 
 root.title('Terminal Config')
-root.iconbitmap('R2D2.ico')
+
 
 image = Image.open("Header.png")
 image = image.resize((500, 60), Image.ANTIALIAS)

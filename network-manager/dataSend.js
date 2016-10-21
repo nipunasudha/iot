@@ -1,3 +1,5 @@
+console.log('UPLOADING DATA TO THE SERVER...\n');
+
 var net = require('net');
 
 var redis = require("redis");
@@ -24,7 +26,7 @@ var sql = "INSERT INTO data (data) VALUES ";
 
 function removeFromCache(keyArray) {
     redisClient.del(keyArray,function (test) {
-        console.log('delete ok');
+        console.log('Uploaded Entries Successfully Deleted');
         process.exit();
     });
 }
