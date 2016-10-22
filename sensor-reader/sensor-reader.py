@@ -18,7 +18,7 @@ def read():
 data=read()
 readinterval=float(data['settings']['readinterval'])
 sensors=data['sensors']
-print ("Read-interval : "+readinterval+" seconds")
+print ("Read-interval : "+str(readinterval)+" seconds")
 #============  GPIO SETUP  =============
 btn=14
 led=15
