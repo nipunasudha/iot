@@ -1,6 +1,7 @@
 import os
 import time
+print("===========================================")
 print("DATA UPLOADER LAUNCHER SERVICE\n")
 while 1:
-    os.system('lxterminal -l -e "node ~/iot/network-manager/dataSend.js"')
+    os.system('node ~/iot/network-manager/dataSend.js')
     time.sleep(15)

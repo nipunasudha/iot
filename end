@@ -1,0 +1,4 @@
+sudo pkill -f redis
+sudo pkill python2
+echo "Terminated Successfully"
+sudo pkill sh

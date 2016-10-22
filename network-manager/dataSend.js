@@ -1,5 +1,6 @@
-console.log('UPLOADING DATA TO THE SERVER...\n');
-
+console.log("\n=======================================");
+console.log('UPLOADING DATA TO THE SERVER...');
+console.log("=======================================\n");
 var net = require('net');
 
 var redis = require("redis");
@@ -26,7 +27,10 @@ var sql = "INSERT INTO data (data) VALUES ";
 
 function removeFromCache(keyArray) {
     redisClient.del(keyArray,function (test) {
-        console.log('Uploaded Entries Successfully Deleted');
+	console.log("\n=======================================");
+	console.log('Uploaded Entries Successfully Deleted.');
+	console.log("=======================================\n");
+        
         process.exit();
     });
 }
@@ -35,10 +39,12 @@ function logMysql(sql) {
     mysqlClient.connect();
     sql = sql.slice(0,-1);
     sql+=";";
-    console.log(sql);
+    //console.log(sql);
     mysqlClient.query(sql, function(err, rows, fields) {
         if (!err) {
-            console.log('added to the database');
+		console.log("\n=======================================");
+	    	console.log(data.length+' Entries added to the database.');
+		console.log("=======================================\n");
             removeFromCache(keyArray);
         }
         else {
