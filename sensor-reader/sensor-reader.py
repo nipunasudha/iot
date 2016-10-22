@@ -5,6 +5,20 @@ from datetime import datetime
 import json
 import RPi.GPIO as GPIO
 
+def update():
+    jsonFile = open("../Settings.json", "w+")
+    jsonFile.write(json.dumps(data))
+    jsonFile.close()
+def read():
+    jsonFile = open("../Settings.json", "r")
+    data = json.load(jsonFile)
+    jsonFile.close()
+    return data
+#------------------------------------------------------------
+data=read()
+readinterval=float(data['settings']['readinterval'])
+
+print ("Read-interval : "+readinterval+" seconds")
 #============  GPIO SETUP  =============
 btn=14
 led=15
@@ -41,5 +55,5 @@ while True:
     key=timestamp
     r.set(key,dataj)
     print(dataj)
-    time.sleep(0.5)
+    time.sleep(readinterval)
 
