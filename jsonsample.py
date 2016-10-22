@@ -11,6 +11,6 @@ def read():
 #------------------------------------------------------------
 data=read()
 print(data['terminal']['id'])
-data['terminal']['id']="T00001"
+data['terminal']['id']="testedited"
 update()
 print(data['terminal']['id'])

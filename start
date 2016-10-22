@@ -14,10 +14,10 @@ src/redis-server &
 
 cd ~/iot
 cd control-panel
-sudo python2 IOT.py &
+sudo python2 control-panel.py &
 cd ../network-manager
 python2 upload.py &
 
 
 cd ../sensor-reader
-python2 redis-gpio.py
+python2 sensor-reader.py
