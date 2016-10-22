@@ -4,7 +4,7 @@ from random import randint
 from datetime import datetime
 import json
 import RPi.GPIO as GPIO
-
+#============= SETTINGS READER ==================
 def update():
     jsonFile = open("../Settings.json", "w+")
     jsonFile.write(json.dumps(data))
@@ -17,7 +17,7 @@ def read():
 #------------------------------------------------------------
 data=read()
 readinterval=float(data['settings']['readinterval'])
-
+sensors=data['sensors']
 print ("Read-interval : "+readinterval+" seconds")
 #============  GPIO SETUP  =============
 btn=14
