@@ -3,11 +3,22 @@ from PIL import Image, ImageTk
 import json
 print('GUI APPLICATION MANAGER')
 #-------------------FOR CHILD-----------------------------
-sensor_Calibrate = ''
-var_type = ''
-sensor_ID = ''
-sensor_Port = ''
-#-----------------------------------------------------------
+variable_calibrate = ""
+om_variable_type = ''
+om_variable_id = ''
+om_variable_port = ''
+
+current_ids = []
+available_ids =[]
+current_ports = []
+available_ports =[]
+
+varBackUp = ''
+option_1 = ''
+
+ids = ['S01', 'S02', 'S03', 'S04', 'S05', 'S06', 'S07', 'S08', 'S09', 'S10']
+ports = ['A01', 'A02', 'A03', 'A04', 'A05', 'D01', 'D02', 'D03', 'D04', 'D05']
+#-------------------------------------------
 data = {}
 selected_id = ""
 
@@ -16,8 +27,6 @@ val_API_Key = ""
 val_Port = ""
 val_Terminal_ID = ""
 
-val_Analog_Port = ""
-val_Select_Sensor = ""
 #-----------Update the json file------------
 def update():
     jsonFile = open("../Settings.json", "w+")
@@ -41,42 +50,76 @@ def startUp():
     port.insert(0, data['settings']['port'])
     terminal_ID.delete(0, END)
     terminal_ID.insert(0, data['terminal']['id'])
+#-----------Setup available ports and ids---
+def createOption(child):
+    global variable_calibrate, om_variable_type, om_variable_id, om_variable_port
+    global data, current_ids, current_ports, available_ids, available_ports
+    x = 0
+
+    om_variable_type = StringVar(child)
+    om_variable_type.set("Temperature")
+    om_type = OptionMenu(child, om_variable_type, "Temperature", "Salinity", "Light", "Wind")
+    om_type.config(width=10)
+    om_type.grid(row=x, column=2)
+
+    label_id = Label(child, text="Sensor ID:")
+    label_id.grid(row=x+1, sticky=E)
+    om_variable_id = StringVar(child)
+    om_variable_id.set(available_ids[0])
+    om_id = OptionMenu(child, om_variable_id, *available_ids)
+    om_id.config(width=10)
+    om_id.grid(row=x+1, column=2)
+
+    label_port = Label(child, text="Connected Port:")
+    label_port.grid(row=x+2, sticky=E)
+    om_variable_port = StringVar(child)
+    om_variable_port.set(available_ports[0])
+    om_port = OptionMenu(child, om_variable_port, *available_ports)
+    om_port.config(width=10)
+    om_port.grid(row=x+2, column=2)
+#-------------------------------------------
+def setup():
+    global data, current_ids, current_ports, available_ids, available_ports
+
+    current_ids = []
+    available_ids =[]
+    current_ports = []
+    available_ports =[]
+
+    for i in data['sensors']:
+        current_ids.append(i['id'])
+        current_ports.append(i['port'])
+
+    for i in ids:
+        if(i not in current_ids):
+            available_ids.append(i)
+    for i in ports:
+        if(i not in current_ports):
+            available_ports.append(i)
 #-----------Popup window for adding sensors--
 def popupWindow(event):
-    global data
-    global sensor_Calibrate
-    global var_type
-    global sensor_ID
-    global sensor_Port
+    global variable_calibrate, om_variable_type, om_variable_id, om_variable_port
+    global data, current_ids, current_ports, available_ids, available_ports
 
     child = Tk()
-    x=0
+    child.resizable(height=False, width=False )
+    child.title('Add Sensor Panel')
+    # child.iconbitmap('R2D2.ico')
+    x = 0
     #------------------------------------------------
     label_type = Label(child, text="Sensor Type:")
-    var_type = StringVar(child)
-    var_type.set("Temperature")
-    option_type = OptionMenu(child, var_type, "Temperature", "Salinity", "Light", "Wind")
     label_type.grid(row=x, sticky=E)
-    option_type.config(width=10)
-    option_type.grid(row=x, column=2)
-    #----------------------------------------------
-    label_id = Label(child, text="Sensor ID:")
-    sensor_ID = Entry(child)
-    sensor_ID.config(width=10)
-    label_id.grid(row=x+1, sticky=E)
-    sensor_ID.grid(row=x+1, column=2)
-    #----------------------------------------------
-    label_port = Label(child, text="Connected Port:")
-    sensor_Port = Entry(child)
-    sensor_Port.config(width=10)
-    label_port.grid(row=x+2, sticky=E)
-    sensor_Port.grid(row=x+2, column=2)
+
+    setup()
+    createOption(child)
+
     #-----------------------------------------------
     label_calib = Label(child, text="Calibrate Value:")
-    sensor_Calibrate = Entry(child)
-    sensor_Calibrate.config(width=10)
     label_calib.grid(row=x+3, sticky=E)
-    sensor_Calibrate.grid(row=x+3, column=2)
+    variable_calibrate = Entry(child)
+    variable_calibrate.insert(END, "100")
+    variable_calibrate.config(width=10)
+    variable_calibrate.grid(row=x+3, column=2)
     #-----------------------------------------------
     add_Sensor_Submit = Button(child, text="Conform", width=15)
     add_Sensor_Submit.bind("<Button-1>", submit)
@@ -87,10 +130,10 @@ def popupWindow(event):
 def submit(event):
     global data, listbox
     sensor = {}
-    sensor['calib'] = sensor_Calibrate.get()
-    x = var_type.get()
-    id = sensor_ID.get()
-    port = sensor_Port.get()
+    sensor['calib'] = variable_calibrate.get()
+    x = om_variable_type.get()
+    id = om_variable_id.get()
+    port = om_variable_port.get()
 
     if(x == 'Temperature'):
         x = 'TEMP'
@@ -109,6 +152,11 @@ def submit(event):
     update()
     startUp()
     updateCurrentSensors()
+
+    parentName = event.widget.winfo_parent()
+    parent = event.widget._nametowidget(parentName)
+    setup()
+    createOption(parent)
 #-----------Update the current sensor panel--
 def updateCurrentSensors():
     global listbox
@@ -138,12 +186,12 @@ def updateData(event):
     data['terminal']['apikey'] = val_API_Key
     data['settings']['port'] = val_Port
     data['terminal']['id'] = val_Terminal_ID
-
     update()
     startUp()
 #--------------------Show data of selected sensor------------
 def showMyDetails(event):
-    global listbox, data, selected_id
+    global listbox, data, selected_id, varBackUp
+
     widget = event.widget
     selection = widget.curselection()
     value = widget.get(selection[0])
@@ -155,52 +203,67 @@ def showMyDetails(event):
     for i in data['sensors']:
         if(i['id'] == selected_id):
 
-            type = i['port'][0]
-            number = i['port'][1:]
-
-            if(type == 'D'):
-                value = 'Digital Port '+number
-                var.set(value)
-            elif(type == "A"):
-                value = 'Analog Port '+number
-                var.set(value)
+            port = i['port']
+            varBackUp = port
 
             calibrate.delete(0, END)
             calibrate.insert(END, i['calib'])
 
+    parentName = event.widget.winfo_parent()
+    parent = event.widget._nametowidget(parentName)
+    editPorts(parent)
 #------------------------------------------------------------
 def modifySelected(event):
-    global selected_id, data
-    print 'I am in'
-    for i in data['sensors']:
-        if(i['id'] == selected_id):
-            new_port = (var.get().split(" "))[0][0]+(var.get().split(" "))[2]
-            i['port'] = new_port
-            cali = calibrate.get()
-            i['calib'] = cali
+    global selected_id, data, var
 
-    update()
-    updateCurrentSensors()
-    autoReset()
+    if(selected_id != "None"):
+        for i in data['sensors']:
+            if(i['id'] == selected_id):
+                new_port = var.get()
+                i['port'] = new_port
+                cali = calibrate.get()
+                i['calib'] = cali
 
+        update()
+        updateCurrentSensors()
+        autoReset()
+    selected_id = 'None'
+#------------------------------------------------------------
 def removeSelected(event):
     global selected_id, data
-    for i in data['sensors']:
-        if(i['id'] == selected_id):
-            del data['sensors'][data['sensors'].index(i)]
-    update()
-    updateCurrentSensors()
-    autoReset()
 
+    if(selected_id != "None"):
+        for i in data['sensors']:
+            if(i['id'] == selected_id):
+                del data['sensors'][data['sensors'].index(i)]
+        update()
+        updateCurrentSensors()
+        autoReset()
+    selected_id = 'None'
+#------------------------------------------------------------
 def autoReset():
     var.set("None")
     calibrate.delete(0, END)
     calibrate.insert(END, "None")
+#------------------------------------------------------------
+def editPorts(root):
+    global var, option_1, available_ports
+
+    setup()
+    var = StringVar(root)
+    if(varBackUp == ''):
+        var.set("None")
+    else:
+        var.set(varBackUp)
+    option_1 = OptionMenu(root, var, "None", *available_ports)
+    option_1.config(width=14)
+    option_1.grid(row=9, column=3)
 
 root = Tk()
 
+root.resizable(height=False, width=False )
 root.title('Terminal Config')
-
+# root.iconbitmap('R2D2.ico')
 
 image = Image.open("Header.png")
 image = image.resize((500, 60), Image.ANTIALIAS)
@@ -265,11 +328,9 @@ scroll.grid(row=t, column=1, rowspan=4, sticky=N+E+S)
 label_Digital_Port = Label(root, text="Analog/Digital Port")
 label_Digital_Port.grid(row=9, column=2, sticky=E)
 
-var = StringVar(root)
-var.set("None")
-option_1 = OptionMenu(root, var, "None", "Analog Pin 01", "Analog Pin 02", "Analog Pin 03", "Digital Pin 01", "Digital Pin 02", "Digital Pin 03")
-option_1.config(width=14)
-option_1.grid(row=9, column=3)
+######################
+#----------->
+######################
 #---------------------------------------------------------
 label_Calibrate = Label(root, text="Calibrate Value")
 label_Calibrate.grid(row=10, column=2, sticky=E)
@@ -289,7 +350,8 @@ last = Label(root, text="",height=1)
 last.grid(row=13, columnspan=4, sticky=E)
 
 startUp()
+setup()
+editPorts(root)
 updateCurrentSensors()
-
 #---------------------------------------------------------------------
 root.mainloop()
