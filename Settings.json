@@ -1,1 +1,65 @@
-{"terminal": {"owner": "Artifactory", "apikey": "rcm123", "id": "testedited"}, "sensors": [{"calib": "111", "type": "TEMP", "id": "S01", "port": "P01"}, {"calib": "111", "type": "TEMP", "id": "S02", "port": "P02"}, {"calib": "111", "type": "TEMP", "id": "S03", "port": "D01"}, {"calib": "None", "type": "TEMP", "id": "", "port": "D01"}, {"calib": "None", "type": "TEMP", "id": "", "port": "D01"}, {"calib": "None", "type": "TEMP", "id": "", "port": "D01"}, {"calib": "None", "type": "TEMP", "id": "", "port": "D01"}, {"calib": "None", "type": "TEMP", "id": "", "port": "D01"}, {"calib": "None", "type": "TEMP", "id": "", "port": "D01"}, {"calib": "None", "type": "TEMP", "id": "", "port": "D01"}], "settings": {"auto": "1", "interval": "15","readinterval":"0.5", "broker": "192.213.43.54", "port": "8883"}}
+{
+    "terminal": {
+        "owner": "Artifactory"
+        , "apikey": "rcm123"
+        , "id": "testedited"
+    }
+    , "sensors": [{
+        "calib": "111"
+        , "type": "TEMP"
+        , "id": "S01"
+        , "port": "P01"
+    }, {
+        "calib": "111"
+        , "type": "TEMP"
+        , "id": "S02"
+        , "port": "P02"
+    }, {
+        "calib": "111"
+        , "type": "TEMP"
+        , "id": "S03"
+        , "port": "D01"
+    }, {
+        "calib": "None"
+        , "type": "TEMP"
+        , "id": ""
+        , "port": "D01"
+    }, {
+        "calib": "None"
+        , "type": "TEMP"
+        , "id": ""
+        , "port": "D01"
+    }, {
+        "calib": "None"
+        , "type": "TEMP"
+        , "id": ""
+        , "port": "D01"
+    }, {
+        "calib": "None"
+        , "type": "TEMP"
+        , "id": ""
+        , "port": "D01"
+    }, {
+        "calib": "None"
+        , "type": "TEMP"
+        , "id": ""
+        , "port": "D01"
+    }, {
+        "calib": "None"
+        , "type": "TEMP"
+        , "id": ""
+        , "port": "D01"
+    }, {
+        "calib": "None"
+        , "type": "TEMP"
+        , "id": ""
+        , "port": "D01"
+    }]
+    , "settings": {
+        "auto": "1"
+        , "interval": "15"
+        , "readinterval": "0.5"
+        , "broker": "192.213.43.54"
+        , "port": "8883"
+    }
+}
