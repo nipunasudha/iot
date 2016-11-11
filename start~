@@ -1,0 +1,25 @@
+echo "====================================="
+echo "====================================="
+echo "====================================="
+
+echo "Canary IOT - IOT for Everyone"
+
+echo "====================================="
+echo "====================================="
+echo "====================================="
+
+cd ~
+cd redis-3.2.4
+src/redis-server &
+
+cd ~/iot
+cd control-panel
+sudo python2 control-panel.py &
+cd ../network-manager
+python2 upload.py &
+
+cd../client
+python2 alarm.py &
+
+cd ../sensor-reader
+python2 sensor-reader.py

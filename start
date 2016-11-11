@@ -18,6 +18,8 @@ sudo python2 control-panel.py &
 cd ../network-manager
 python2 upload.py &
 
+cd ../client
+python2 alarm.py &
 
 cd ../sensor-reader
 python2 sensor-reader.py

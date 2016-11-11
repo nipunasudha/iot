@@ -32,6 +32,7 @@ val_Terminal_ID = ""
 
 val_auto = ""
 val_interval = ""
+val_reading_interval = ""
 
 #-----------Update the json file------------
 def update():
@@ -64,6 +65,10 @@ def startUp():
 
     uploading_interval.delete(0, END)
     uploading_interval.insert(END, data['settings']['interval'])
+
+    reading_interval.delete(0, END)
+    reading_interval.insert(END, data['settings']['readinterval'])
+
 #-----------Setup available ports and ids---
 def createOption(child):
     global variable_calibrate, om_variable_type, om_variable_id, om_variable_port
@@ -218,6 +223,7 @@ def submitData(event):
     try:
         val_auto = auto.get()
         val_interval = int(uploading_interval.get())
+        val_reading_interval = float(reading_interval.get())
 
         if(val_auto == "true"):
             val_auto = "1"
@@ -226,11 +232,12 @@ def submitData(event):
 
         data['settings']['auto'] = val_auto
         data['settings']['interval'] = str(val_interval)
+        data['settings']['readinterval'] = str(val_reading_interval)
         update()
         startUp()
         tkMessageBox.showinfo("Successful", "Successfully Submitted..")
     except:
-        tkMessageBox.showinfo("Error", "Uploading Interval must be a number..")
+        tkMessageBox.showinfo("Error", "Intervals must be numbers..")
 
 def showMyDetails(event):
     global listbox, data, selected_id, varBackUp
@@ -308,7 +315,7 @@ def editPorts(root):
         var.set(varBackUp)
     option_1 = OptionMenu(root, var, "None", *available_ports)
     option_1.config(width=14)
-    option_1.grid(row=12, column=3)
+    option_1.grid(row=13, column=3)
 
 root = Tk()
 
@@ -317,7 +324,7 @@ root.title('Terminal Config')
 # root.iconbitmap('R2D2.ico')
 
 image = Image.open("Header.png")
-image = image.resize((500, 60), Image.ANTIALIAS)
+image = image.resize((600, 70), Image.ANTIALIAS)
 photo = ImageTk.PhotoImage(image)
 
 label = Label(root, image=photo)
@@ -373,6 +380,12 @@ auto_uploading = OptionMenu(root, auto, "true", "false")
 auto_uploading.config(width=14)
 auto_uploading.grid(row=y+1, column=1)
 
+label_reading_interval = Label(root, text="Reading Interval")
+label_reading_interval.grid(row=y+2, column=2, sticky=E)
+
+reading_interval = Entry(root)
+reading_interval.grid(row=y+2, column=3)
+
 label_uploading_interval = Label(root, text="Uploading Interval")
 label_uploading_interval.grid(row=y+1, column=2, sticky=E)
 
@@ -381,12 +394,12 @@ uploading_interval.grid(row=y+1, column=3)
 
 button_submit = Button(root, text="Submit", width=15)
 button_submit.bind("<Button-1>", submitData)
-button_submit.grid(row=y+2, column=3)
+button_submit.grid(row=y+3, column=3)
 
 #--------------------------------------------------------
 #--------------Sensor Settings---------------------------
 #--------------------------------------------------------
-t = 10;
+t = 11;
 label_title = Label(root, text="Sensor Settings")
 label_title.grid(row=t, sticky=W)
 label_title.grid(columnspan=2, sticky=W)
